@@ -11,6 +11,7 @@
     "express-async-handler": "^1.2.0",
     "mongodb": "^5.5.0",
     "mongoose": "^7.2.2",
+    "nodemailer": "^6.9.3",
     "yarn": "^1.22.19"
   },
   "devDependencies": {

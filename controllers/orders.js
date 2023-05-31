@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { Order } = require("../models/orders");
+const { sendEmail } = require("./utils");
 
 exports.getAll = asyncHandler(async (req, res) => {
     const allOrders = await Order.find();
@@ -32,17 +33,23 @@ exports.calculatePrice = asyncHandler(async (req, res) => {
     res.status(200).send({result: result});
 });
 
-exports.post = asyncHandler(async (req, res) => {
-    const { name, destination } = req.body;
-
-    if (!(name && destination)) {
+exports.post = async (req, res) => {
+    const { firstName, lastName, email, phone, passengers, arrivalTime, price } = req.body;
+    if (!(firstName && lastName && email && phone && passengers && arrivalTime)) { //todo: later add price to also be required
         return res.status(400).send("All input is required");
     }
 
     const newOrder = new Order(req.body);
-    const savedOrder = await newOrder.save()
-    res.status(200).send(savedOrder);
-});
+    try {
+        const savedOrder = await newOrder.save();
+        // sendEmail(email, savedOrder);
+    
+        res.status(200).send(savedOrder);
+    }
+    catch (e) {
+        res.status(500).send(e);
+    }
+};
 
 exports.deleteById = asyncHandler(async (req, res) => {
     const id = req.params.id;
