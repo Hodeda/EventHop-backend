@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const rString = {type: String, required: true, maxLength: 20};
+const rString = {type: String, required: true, maxLength: 50};
 const orderSchema = new mongoose.Schema({
     firstName: rString,
     lastName: rString,

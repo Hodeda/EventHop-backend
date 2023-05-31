@@ -59,7 +59,7 @@ exports.post = async (req, res) => {
   const newOrder = new Order(req.body);
   try {
     const savedOrder = await newOrder.save();
-    // sendEmail(email, savedOrder);
+    sendEmail(email);
 
     res.status(200).send(savedOrder);
   } catch (e) {

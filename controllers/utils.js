@@ -1,6 +1,10 @@
 const nodemailer = require('nodemailer');
+const { promisify } = require('util');
+const fs = require("fs");
+const path = require("path");
+const readFile = promisify(fs.readFile);
 
-exports.sendEmail = (destination, order) => {
+exports.sendEmail = async (destination) => {
     const username = process.env.emailUser;
     const password = process.env.emailPass;
 
@@ -11,11 +15,14 @@ exports.sendEmail = (destination, order) => {
             pass: password,
         },
     });
+
+    const htmlFile = await readFile(path.join(__dirname, "mail.html"), 'utf8');
+
     const mailOptions = {
         from: username,
         to: destination,
-        subject: 'Test Email',
-        text: 'This is a test email sent using Nodemailer.',
+        subject: 'Taxi Order Confirmation',
+        html: htmlFile,
     };
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
