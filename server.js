@@ -8,11 +8,7 @@ const ordersRoute = require("./routes/orders");
 
 const app = express();
 app.use(express.json());
-app.use(
-  cors({
-    origin: ["http://localhost:3000", "https://event-hop.netlify.app/"], //don't forget to add cors for the deployed version's url!
-  })
-);
+app.use(cors());
 
 app.use("/order", ordersRoute);
 
