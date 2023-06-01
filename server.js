@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"], //don't forget to add cors for the deployed version's url!
+    origin: ["http://localhost:3000", "https://event-hop.netlify.app/"], //don't forget to add cors for the deployed version's url!
   })
 );
 
