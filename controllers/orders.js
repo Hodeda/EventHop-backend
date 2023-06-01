@@ -15,7 +15,6 @@ exports.getById = asyncHandler(async (req, res) => {
 });
 
 exports.calculatePrice = asyncHandler(async (req, res) => {
-  console.log(req.body);
   const {
     pickup_longitude,
     pickup_latitude,
@@ -33,13 +32,16 @@ exports.calculatePrice = asyncHandler(async (req, res) => {
   } = req.body;
 
   const baseUrl = "http://3.70.175.138:8080/predict_flare";
+  const timeUrl = "http://3.70.175.138:8080/predict_duration";
 
   const url = `${baseUrl}?pickup_longitude=${pickup_longitude}&pickup_latitude=${pickup_latitude}&dropoff_longitude=${dropoff_longitude}&dropoff_latitude=${dropoff_latitude}&passenger_count=${passenger_count}&Pickup_Year=${Pickup_Year}&Pickup_Month=${Pickup_Month}&Pickup_Day=${Pickup_Day}&Pickup_Hour=${Pickup_Hour}&Pickup_Minute=${Pickup_Minute}&Pickup_DayOfWeek=${Pickup_DayOfWeek}&Euclidean_Distance=${Euclidean_Distance}&DayHour=${DayHour}`;
+  const durationUrl = `${timeUrl}?pickup_longitude=${pickup_longitude}&pickup_latitude=${pickup_latitude}&dropoff_longitude=${dropoff_longitude}&dropoff_latitude=${dropoff_latitude}&passenger_count=${passenger_count}&pickup_year=${Pickup_Year}&pickup_month=${Pickup_Month}&pickup_day_of_week=${Pickup_DayOfWeek}&Euclidean_Distance=${Euclidean_Distance}&DayHour=${DayHour}&Pickup_Day=${Pickup_Day}&Pickup_Hour=${Pickup_Hour}`;
 
   try {
     const response = await axios.get(url);
-    console.log(response.data); // Log the data from the response
-    res.status(200).json(response.data); // Respond with the data from the axios request
+    const response1 = await axios.get(durationUrl);
+    const timeDuration = response1.data / 60;
+    res.status(200).json({ response: response.data, timeDuration }); // Respond with the data from the axios request
   } catch (error) {
     console.error(error);
     res
