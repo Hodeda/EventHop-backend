@@ -10,7 +10,7 @@ router.post("/calc", OrdersController.calculatePrice);
 router.get("/", OrdersController.getAll);
 
 //get order by id
-router.get("/:id", OrdersController.getById);
+// router.get("/:id", OrdersController.getById);
 
 //post order
 router.post("/", OrdersController.post);
